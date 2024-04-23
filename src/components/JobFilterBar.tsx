@@ -1,11 +1,11 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import Select from "./ui/select-no-js";
 import prisma from "@/lib/prisma";
 import { jobTypes } from "@/lib/jobTypes";
 import { JobFilterValues, jobFilterScheme } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormStatusButton from "./FormStatusButton";
+import SelectNoJs from "./ui/select-no-js";
 async function filterJobs(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
@@ -52,7 +52,7 @@ export default async function JobFilter({ filterValues }: JobFilterProps) {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="type"> Type</Label>
-            <Select
+            <SelectNoJs
               name="type"
               id="type"
               className="text-black"
@@ -64,11 +64,11 @@ export default async function JobFilter({ filterValues }: JobFilterProps) {
                   {type}
                 </option>
               ))}
-            </Select>
+            </SelectNoJs>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="location">Location</Label>
-            <Select
+            <SelectNoJs
               name="location"
               id="location"
               className="text-black"
@@ -80,7 +80,7 @@ export default async function JobFilter({ filterValues }: JobFilterProps) {
                   {location}
                 </option>
               ))}
-            </Select>
+            </SelectNoJs>
           </div>
           <div className="flex items-center gap-2">
             <input

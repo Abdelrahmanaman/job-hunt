@@ -9,17 +9,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CreateJobValues, createJobScheme } from "@/lib/validation";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select-no-js";
-import { jobTypes } from "@/lib/jobTypes";
+} from "@/components/ui/select";
+import { jobTypes, locationTypes } from "@/lib/jobTypes";
 export default function JobForm() {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobScheme),
@@ -78,26 +81,84 @@ export default function JobForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job type</FormLabel>
-                  <Select {...field} defaultValue={""}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select a fruit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Fruits</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                    {jobTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </Select>
+                  <FormControl>
+                    <Select {...field} defaultValue={""}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a job type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Select type</SelectLabel>
+                          {jobTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="companyName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. ACME Co." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="companyLogo"
+              render={({ field: { value, ...fieldValues } }) => (
+                <FormItem>
+                  <FormLabel>Job title</FormLabel>
+                  <FormControl>
+                    <Input
+                      type={"file"}
+                      accept="image/*"
+                      {...fieldValues}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        fieldValues.onChange(file);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location type</FormLabel>
+                  <FormControl>
+                    <Select {...field} defaultValue={""}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select location type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Select location type</SelectLabel>
+                          {locationTypes.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

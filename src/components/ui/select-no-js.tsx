@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 export default forwardRef<
   HTMLSelectElement,
   React.HTMLProps<HTMLSelectElement>
->(function Select({ className, ...props }, ref) {
+>(function SelectNoJS({ className, ...props }, ref) {
   return (
     <div className="relative">
       <select
