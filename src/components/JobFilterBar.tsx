@@ -1,6 +1,6 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import Select from "./ui/select";
+import Select from "./ui/select-no-js";
 import prisma from "@/lib/prisma";
 import { jobTypes } from "@/lib/jobTypes";
 import { JobFilterValues, jobFilterScheme } from "@/lib/validation";
@@ -34,7 +34,11 @@ export default async function JobFilter({ filterValues }: JobFilterProps) {
     )) as string[];
   return (
     <aside className="sticky top-20 rounded-lg border bg-background">
-      <form action={filterJobs} className="p-4">
+      <form
+        action={filterJobs}
+        key={JSON.stringify(filterValues)}
+        className="p-4"
+      >
         <h2 className="sr-only">Filter search</h2>
         <div className="space-y-6">
           <div className="flex flex-col gap-2">

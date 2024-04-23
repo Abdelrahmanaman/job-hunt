@@ -14,7 +14,7 @@ export default function Header() {
       <nav className="flex items-center justify-between">
         <div>
           <Link href={"/"} className="flex items-center gap-1.5">
-            <Image src={"logo.svg"} alt="Job Huntlogo" width={40} height={40} />
+            <Image src={"/logo.svg"} alt="Job Huntlogo" width={40} height={40} />
             <span className="text-sm font-semibold text-purple-950 md:text-xl">
               Job Hunt
             </span>
@@ -35,7 +35,7 @@ export default function Header() {
               <Link href={"/"}>Explore Jobs</Link>
             </li>
             <li>
-              <Link href={"/jobs"}>Post a Job</Link>
+              <Link href={"/jobs/new"}>Post a Job</Link>
             </li>
             <li>
               <Link href={"/login"}>Login</Link>
@@ -47,7 +47,7 @@ export default function Header() {
             <Link href={"/"}>Explore Jobs</Link>
           </li>
           <li>
-            <Link href={"/jobs"}>Post a Job</Link>
+            <Link href={"/jobs/new"}>Post a Job</Link>
           </li>
           <li>
             <Link href={"/login"}>Login</Link>
