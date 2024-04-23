@@ -166,6 +166,8 @@ export default function JobForm() {
           </form>
         </Form>
       </div>
+  
     </section>
   );
 }
+

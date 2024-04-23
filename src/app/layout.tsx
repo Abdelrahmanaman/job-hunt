@@ -24,7 +24,7 @@ export default function RootLayout({
         <main className="mx-auto">
           <Header />
           {children}
-          </main>
+        </main>
       </body>
     </html>
   );
