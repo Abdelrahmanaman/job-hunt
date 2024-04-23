@@ -1,13 +1,28 @@
 import JobFilter from "@/components/JobFilterBar";
-import JobListing from "@/components/JobListing";
 import JobResult from "@/components/JobResult";
-import prisma from "@/lib/prisma";
-import Link from "next/link";
-export default async function Home() {
-  const jobs = await prisma.job.findMany({
-    where: { approved: true },
-    orderBy: { createdAt: "desc" },
-  });
+import { JobFilterValues } from "@/lib/validation";
+
+interface PageProps {
+  searchParams: {
+    q?: string,
+    type?: string,
+    location?: string,
+    remote?: string
+  }
+}
+export default async function Home({searchParams : {
+  q,
+  type,
+  location,
+  remote
+}}: PageProps) {
+  const filterValues: JobFilterValues = {
+    q,
+    type,
+    location,
+    remote: remote === "true"
+  }
+  
   return (
     <section className="m-auto my-10  max-w-5xl space-y-10 px-3">
       <div className="mb-4 flex flex-col gap-4">
@@ -16,11 +31,11 @@ export default async function Home() {
           Finding your dream job starts here!
         </span>
       </div>
-      <div className="flex gap-4 sm:flex-wrap flex-wrap md:flex-nowrap">
+      <div className="flex flex-wrap gap-4 sm:flex-wrap md:flex-nowrap">
         <div className="w-full sm:w-full md:w-fit">
-          <JobFilter />
+          <JobFilter filterValues={filterValues} />
         </div>
-        <JobResult/>
+        <JobResult filterValues={filterValues} />
       </div>
     </section>
   );
