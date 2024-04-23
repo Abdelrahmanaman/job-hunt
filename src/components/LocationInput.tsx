@@ -1,99 +1,65 @@
-"use client";
-import { useState, useMemo } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import {
- 
-  CommandList,
-  Command,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
+import citiesList from "@/lib/cities-lists";
+import { forwardRef, useMemo, useState } from "react";
+import { Input } from "./ui/input";
 
-interface PlacesAutocompleteProps {
-  setSelected: (selected: { lat: number; lng: number } | null) => void;
+interface LocationInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  onLocationSelected: (location: string) => void;
 }
 
+export default forwardRef<HTMLInputElement, LocationInputProps>(
+  function LocationInput({ onLocationSelected, ...props }, ref) {
+    const [locationSearchInput, setLocationSearchInput] = useState("");
+    const [hasFocus, setHasFocus] = useState(false);
 
-export default function Places() {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-    libraries: ["places"],
-  });
+    const cities = useMemo(() => {
+      if (!locationSearchInput.trim()) return [];
 
-  if (!isLoaded) return <div>Loading...</div>;
-  return <Map />;
-}
+      const searchWords = locationSearchInput.split(" ");
 
-function Map() {
-  const [selected, setSelected] = useState<{ lat:number,lng:number } | null>(null);
-  const center = useMemo(() => ({ lat: 43.45, lng: -80.49 }), []);
-  
-  return (
-    <>
-      <div  >
-        <PlacesAutocomplete setSelected={setSelected} />
+      return citiesList
+        .map((city) => `${city.name}, ${city.subcountry}, ${city.country}`)
+        .filter(
+          (city) =>
+            city.toLowerCase().startsWith(searchWords[0].toLowerCase()) &&
+            searchWords.every((word) =>
+              city.toLowerCase().includes(word.toLowerCase()),
+            ),
+        )
+        .slice(0, 5);
+    }, [locationSearchInput]);
+
+    return (
+      <div className="relative">
+        <Input
+          placeholder="Search for a city..."
+          type="search"
+          value={locationSearchInput}
+          onChange={(e) => setLocationSearchInput(e.target.value)}
+          onFocus={() => setHasFocus(true)}
+          onBlur={() => setHasFocus(false)}
+          {...props}
+          ref={ref}
+        />
+        {locationSearchInput.trim() && hasFocus && (
+          <div className="absolute z-20 w-full divide-y rounded-b-lg border-x border-b bg-background shadow-xl">
+            {!cities.length && <p className="p-3">No results found.</p>}
+            {cities.map((city) => (
+              <button
+                key={city}
+                className="block w-full p-2 text-start"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  onLocationSelected(city);
+                  setLocationSearchInput("");
+                }}
+              >
+                {city}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerClassName="map-container"
-      >
-        {selected && <Marker position={selected} />}
-      </GoogleMap>
-     
-    </>
-  );
-}
-
- 
-const PlacesAutocomplete: React.FC<PlacesAutocompleteProps>= ({ setSelected} ) => {
-  const {
-    ready,
-    value,
-    setValue,
-    suggestions: { status, data },
-    clearSuggestions,
-  } = usePlacesAutocomplete();
-
-  const handleSelect = async (address:string) => {
-    setValue(address, false);
-    clearSuggestions();
-
-    const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
-    console.log(lat)
-    console.log(lng)
-
-    setSelected({lat,lng });
-  };
-
-  return (
-    <Command >
-    <CommandInput
-    value={value}
-    onValueChange={setValue}
-    disabled={!ready}
-    placeholder="Search an address"
-    className="combobox-input"
-    />
-    <CommandList >
-    <CommandGroup>
-    {status === "OK" &&
-    data.map(({ place_id, description }) => (
-    <CommandItem key={place_id} onSelect={handleSelect} >
-    
-    {description}
-    
-    </CommandItem>
-    ))}
-    </CommandGroup>
-    </CommandList>
-    </Command>
-    
     );
-};
+  },
+);

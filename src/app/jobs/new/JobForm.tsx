@@ -99,6 +99,7 @@ export default function JobForm() {
                     </Select>
                   </FormControl>
                   <FormMessage />
+  
                 </FormItem>
               )}
             />
@@ -166,7 +167,6 @@ export default function JobForm() {
           </form>
         </Form>
       </div>
-  
     </section>
   );
 }
