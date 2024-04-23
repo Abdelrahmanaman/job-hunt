@@ -1,6 +1,12 @@
 import { Job } from "@prisma/client";
 import Image from "next/image";
-import { Banknote, BriefcaseBusiness, Clock, Globe, MapPin } from 'lucide-react';
+import {
+  Banknote,
+  BriefcaseBusiness,
+  Clock,
+  Globe,
+  MapPin,
+} from "lucide-react";
 import { formatCurrency, formatDate } from "@/lib/utils";
 interface JobListingProps {
   job: Job;
@@ -19,8 +25,9 @@ const JobListing = ({
   },
 }: JobListingProps) => {
   return (
-    <article className="relative flex gap-4 items-center cursor-pointer rounded-lg border-2 p-5 hover:bg-muted/60">
+    <article className="relative flex cursor-pointer flex-wrap items-center gap-4 rounded-lg border-2 p-5 hover:bg-muted/60">
       <Image
+      priority
         src={companyLogoUrl || "/company-logo.svg"}
         alt={`${companyName} Logo`}
         width={100}
@@ -51,10 +58,10 @@ const JobListing = ({
           </p>
         </div>
       </div>
-      <span className="absolute hidden md:flex top-6 font-medium right-8 rounded bg-muted text-sm p-2 text-muted-foreground">
+      <span className="absolute right-8 top-6 hidden rounded bg-muted p-2 text-sm font-medium text-muted-foreground md:flex">
         {type}
       </span>
-      <span className="absolute gap-1.5 bottom-2 sm:right-4 right-4  md:right-8 rounded-lg text-muted-foreground/75 flex items-center md:text-sm text-xs font-medium">
+      <span className="absolute bottom-2 right-4 flex items-center  gap-1.5 rounded-lg text-xs font-medium text-muted-foreground/75 sm:right-4 md:right-8 md:text-sm">
         <Clock className="size-4" />
         {formatDate(createdAt)}
       </span>
