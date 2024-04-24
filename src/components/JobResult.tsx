@@ -47,14 +47,21 @@ export default async function JobResult({
     <div className="flex w-full flex-col gap-4">
       {jobs.length ? (
         jobs.map((job) => (
-          <Link key={job.id} href={"/"} className="">
+          <Link key={job.id} href={`jobs/${job.slug}`} className="block">
             <JobListing job={job} />
           </Link>
         ))
       ) : (
         <div className=" flex flex-col items-center">
-          <Image src={"/search-result.svg"} alt="Error no search found" height={300} width={300} />
-          <p className="text-3xl font-semibold text-muted-foreground">Oops, no result found!</p>
+          <Image
+            src={"/search-result.svg"}
+            alt="Error no search found"
+            height={300}
+            width={300}
+          />
+          <p className="text-3xl font-semibold text-muted-foreground">
+            Oops, no result found!
+          </p>
         </div>
       )}
     </div>

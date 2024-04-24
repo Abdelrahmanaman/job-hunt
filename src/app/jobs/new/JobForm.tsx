@@ -17,7 +17,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -30,7 +29,9 @@ import { formatCurrency } from "@/lib/utils";
 import LoadingButton from "@/components/LoadingButton";
 import { CreateJobPost } from "./actions";
 import ErrorToast from "@/components/ErrorToast";
+import { useEffect, useState } from "react";
 export default function JobForm() {
+  const [error, setError] = useState(false);
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobScheme),
   });
@@ -54,7 +55,11 @@ export default function JobForm() {
     try {
       await CreateJobPost(formData);
     } catch (error) {
-      alert("Something went wrong");
+      setError(prev => !prev);
+    } finally {
+      setTimeout(() => {
+        setError((prev) => !prev);
+      }, 3000); 
     }
   };
   return (
@@ -283,9 +288,11 @@ export default function JobForm() {
           </Form>
         </div>
       </div>
-      <div className="sticky bottom-4 pr-4  flex justify-end right-10">
-        <ErrorToast />
-      </div>
+      {error && (
+        <div className="absolute right-4 bottom-5 animate-bounce">
+          <ErrorToast />
+        </div>
+      )}
     </section>
   );
 }
