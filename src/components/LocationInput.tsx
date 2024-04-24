@@ -1,65 +1,69 @@
-import citiesList from "@/lib/cities-lists";
-import { forwardRef, useMemo, useState } from "react";
+"use client";
+
+import usePlacesAutocomplete from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
 import { Input } from "./ui/input";
 
-interface LocationInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  onLocationSelected: (location: string) => void;
-}
 
-export default forwardRef<HTMLInputElement, LocationInputProps>(
-  function LocationInput({ onLocationSelected, ...props }, ref) {
-    const [locationSearchInput, setLocationSearchInput] = useState("");
-    const [hasFocus, setHasFocus] = useState(false);
+export const LocationInput = () => {
+  const {
 
-    const cities = useMemo(() => {
-      if (!locationSearchInput.trim()) return [];
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    
+    debounce: 300,
+  });
+  const ref = useOnclickOutside(() => {
+    // When the user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
+    clearSuggestions();
+  });
 
-      const searchWords = locationSearchInput.split(" ");
+  const handleInput = (e) => {
+    // Update the keyword of the input element
+    setValue(e.target.value);
+  };
 
-      return citiesList
-        .map((city) => `${city.name}, ${city.subcountry}, ${city.country}`)
-        .filter(
-          (city) =>
-            city.toLowerCase().startsWith(searchWords[0].toLowerCase()) &&
-            searchWords.every((word) =>
-              city.toLowerCase().includes(word.toLowerCase()),
-            ),
-        )
-        .slice(0, 5);
-    }, [locationSearchInput]);
+  const handleSelect =
+    ({ description }) =>
+    () => {
+      // When the user selects a place, we can replace the keyword without request data from API
+      // by setting the second parameter to "false"
+      setValue(description, false);
+      clearSuggestions();
 
-    return (
-      <div className="relative">
-        <Input
-          placeholder="Search for a city..."
-          type="search"
-          value={locationSearchInput}
-          onChange={(e) => setLocationSearchInput(e.target.value)}
-          onFocus={() => setHasFocus(true)}
-          onBlur={() => setHasFocus(false)}
-          {...props}
-          ref={ref}
-        />
-        {locationSearchInput.trim() && hasFocus && (
-          <div className="absolute z-20 w-full divide-y rounded-b-lg border-x border-b bg-background shadow-xl">
-            {!cities.length && <p className="p-3">No results found.</p>}
-            {cities.map((city) => (
-              <button
-                key={city}
-                className="block w-full p-2 text-start"
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  onLocationSelected(city);
-                  setLocationSearchInput("");
-                }}
-              >
-                {city}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  },
-);
+  
+    };
+
+  const renderSuggestions = () =>
+    data.map((suggestion) => {
+      const {
+        place_id,
+        structured_formatting: { main_text, secondary_text },
+      } = suggestion;
+
+      return (
+        <li className="" key={place_id} onClick={handleSelect(suggestion)}>
+          <strong className="text-purple-700">{main_text}</strong> <small>{secondary_text}</small>
+        </li>
+      );
+    });
+
+  return (
+    <div ref={ref}>
+      <Input
+        className="flex h-10 w-64 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder="Enter Location"
+      />
+      {/* We can use the "status" to decide whether we should display the dropdown or not */}
+      {status === "OK" && <ul className="space-y-4 mt-4 p-2 rounded-lg overflow-y-scroll h-40 w-64">{renderSuggestions()}</ul>}
+    </div>
+  );
+};

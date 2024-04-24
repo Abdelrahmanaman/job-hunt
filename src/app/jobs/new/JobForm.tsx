@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CreateJobValues, createJobScheme } from "@/lib/validation";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -23,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/jobTypes";
+import { LocationInput } from "@/components/LocationInput";
 export default function JobForm() {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobScheme),
@@ -99,7 +99,6 @@ export default function JobForm() {
                     </Select>
                   </FormControl>
                   <FormMessage />
-  
                 </FormItem>
               )}
             />
@@ -139,7 +138,7 @@ export default function JobForm() {
             />
             <FormField
               control={control}
-              name="location"
+              name="locationType"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Location type</FormLabel>
@@ -164,10 +163,23 @@ export default function JobForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Office location</FormLabel>
+                  <FormControl>
+                    <LocationInput/>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
+          <button type="submit">Submit</button>
         </Form>
       </div>
     </section>
   );
 }
-
