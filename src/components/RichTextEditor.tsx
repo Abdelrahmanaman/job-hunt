@@ -34,7 +34,6 @@ export default forwardRef<Object, EditorProps>(
             ref.current = r;
           }
         }}
-        onChange={}
         {...props}
       />
     );

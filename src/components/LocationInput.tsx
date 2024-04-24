@@ -1,10 +1,8 @@
 "use client";
-import { useLoadScript } from "@react-google-maps/api";
 import { LoadScript } from "@react-google-maps/api";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { Input } from "./ui/input";
-import { LoaderIcon } from "lucide-react";
 type MyLibrary = "places";
 export function LocationInput() {
   return (
@@ -56,7 +54,7 @@ const AutoComplete = () => {
 
       return (
         <li className="border-0" key={place_id} onClick={handleSelect(suggestion)}>
-          <strong className="text-purple-700">{main_text}</strong>{" "}
+          <strong className="text-purple-700">{main_text}</strong>
           <small>{secondary_text}</small>
         </li>
       );
