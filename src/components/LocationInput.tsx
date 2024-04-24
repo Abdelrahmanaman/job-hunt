@@ -1,20 +1,30 @@
 "use client";
-
+import { useLoadScript } from "@react-google-maps/api";
+import { LoadScript } from "@react-google-maps/api";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { Input } from "./ui/input";
+import { LoaderIcon } from "lucide-react";
+type MyLibrary = "places";
+export function LocationInput() {
+  return (
+    <LoadScript
+      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
+      libraries={["places"] as MyLibrary[]}
+    >
+      <AutoComplete />
+    </LoadScript>
+  );
+}
 
-
-export const LocationInput = () => {
+const AutoComplete = () => {
   const {
-
     ready,
     value,
     suggestions: { status, data },
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    
     debounce: 300,
   });
   const ref = useOnclickOutside(() => {
@@ -35,8 +45,6 @@ export const LocationInput = () => {
       // by setting the second parameter to "false"
       setValue(description, false);
       clearSuggestions();
-
-  
     };
 
   const renderSuggestions = () =>
@@ -47,8 +55,9 @@ export const LocationInput = () => {
       } = suggestion;
 
       return (
-        <li className="" key={place_id} onClick={handleSelect(suggestion)}>
-          <strong className="text-purple-700">{main_text}</strong> <small>{secondary_text}</small>
+        <li className="border-0" key={place_id} onClick={handleSelect(suggestion)}>
+          <strong className="text-purple-700">{main_text}</strong>{" "}
+          <small>{secondary_text}</small>
         </li>
       );
     });
@@ -63,7 +72,11 @@ export const LocationInput = () => {
         placeholder="Enter Location"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && <ul className="space-y-4 mt-4 p-2 rounded-lg overflow-y-scroll h-40 w-64">{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <ul className="mt-2 h-40 w-64 space-y-4 overflow-y-scroll rounded-b-lg p-2 border border-t-0">
+          {renderSuggestions()}
+        </ul>
+      )}
     </div>
   );
 };

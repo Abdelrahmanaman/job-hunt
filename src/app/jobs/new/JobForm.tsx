@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/jobTypes";
 import { LocationInput } from "@/components/LocationInput";
+import { Label } from "@/components/ui/label";
+import RichTextEditor from "@/components/RichTextEditor";
 export default function JobForm() {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobScheme),
@@ -170,12 +172,66 @@ export default function JobForm() {
                 <FormItem>
                   <FormLabel>Office location</FormLabel>
                   <FormControl>
-                    <LocationInput/>
+                    <LocationInput />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div>
+              <Label htmlFor="applicationEmail">How to apply</Label>
+            </div>
+            <div className="flex gap-1.5 items-center">
+              <FormField
+                control={control}
+                name="applicationEmail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        id="applicationEmail"
+                        placeholder="Email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <span className="text-lg font-medium">or</span>
+              <FormField
+                control={control}
+                name="applicationUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="url"
+                        id="applicationUrl"
+                        placeholder="Website"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+                control={control}
+            name="description"
+                render={({ field }) => (
+                  <FormItem>
+                <Label>
+                  Job Description
+                </Label>
+                <FormControl>
+                  <RichTextEditor onChange={draft} />
+                </FormControl>
+              </FormItem>
+                )}
+              />
           </form>
           <button type="submit">Submit</button>
         </Form>
