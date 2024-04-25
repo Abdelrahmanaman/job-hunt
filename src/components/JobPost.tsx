@@ -3,8 +3,9 @@ import { formatCurrency } from "@/lib/utils";
 import { Banknote, BriefcaseBusiness, Globe, MapPin } from "lucide-react";
 import Link from "next/link";
 import { Job } from "@prisma/client";
+import Markdown from "./Markdown";
 interface JobPostProps {
-  post: Job ;
+  post: Job;
 }
 export default function JobPost({
   post: {
@@ -22,15 +23,17 @@ export default function JobPost({
   return (
     <section className="m-auto my-10  max-w-5xl space-y-10 px-3 text-purple-900">
       <h1 className="text-4xl font-bold ">{title}</h1>
-      <span>{applicationUrl}</span>
-      <span>{description}</span>
-      {applicationUrl && (
+      {applicationUrl ? (
         <Link
           href={applicationUrl}
           className=" text-xl font-medium text-muted-foreground hover:text-purple-700 hover:underline"
         >
           {companyName}
         </Link>
+      ) : (
+        <span className=" text-xl font-medium text-muted-foreground ">
+          {companyName}
+        </span>
       )}
       <div className="flex flex-col gap-2 md:flex-row">
         <Image
@@ -57,7 +60,7 @@ export default function JobPost({
               </p>
               <p className="flex items-center gap-2 rounded-lg border border-purple-200 bg-muted/60 p-2 ">
                 <Banknote className="size-4 shrink-0" />
-                {salary && formatCurrency(salary)}
+                {formatCurrency(salary)}
               </p>
             </div>
           </div>
@@ -66,6 +69,11 @@ export default function JobPost({
           </span>
         </div>
       </div>
+      {description && (
+        <div>
+          <Markdown>{description}</Markdown>
+        </div>
+      )}
     </section>
   );
 }

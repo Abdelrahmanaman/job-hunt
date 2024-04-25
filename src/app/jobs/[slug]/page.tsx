@@ -30,9 +30,10 @@ export async function generateMetadata({
 
 export default async function page({ params: { slug } }: PageProps) {
   const post = await getPost(slug);
+  if (!post) notFound();
   return (
     <>
-      <JobPost post={post!} />
+      <JobPost post={post} />
     </>
   );
 }
