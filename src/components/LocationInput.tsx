@@ -3,7 +3,11 @@ import { LoadScript } from "@react-google-maps/api";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { Input } from "./ui/input";
+import React from "react";
 type MyLibrary = "places";
+interface DescriptionProps {
+  description: string; // Assuming description is a string
+}
 export function LocationInput() {
   return (
     <LoadScript
@@ -31,13 +35,13 @@ const AutoComplete = () => {
     clearSuggestions();
   });
 
-  const handleInput = (e) => {
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
-    setValue(e.target.value);
+    setValue(event.target.value);
   };
 
   const handleSelect =
-    ({ description }) =>
+    ({ description }: DescriptionProps) =>
     () => {
       // When the user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
