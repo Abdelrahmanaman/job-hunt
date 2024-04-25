@@ -1,5 +1,5 @@
 "use client";
-import { approveJobPost } from "@/app/admin/job-approval/[...slug]/actions";
+import { approveJobPost, deleteJobPost } from "@/app/admin/job-approval/[...slug]/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -49,7 +49,7 @@ export function ApprovalModal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <form action={approveJobPost}>
+        <form action={type === "Delete" ? deleteJobPost : approveJobPost}>
           <div className="grid gap-4 py-4">
             <p className="">
               Are you sure you want to{" "}

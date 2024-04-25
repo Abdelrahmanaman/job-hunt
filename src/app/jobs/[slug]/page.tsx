@@ -56,9 +56,9 @@ export default async function page({ params: { slug } }: PageProps) {
     notFound();
   }
   return (
-    <div className="m-auto my-10  flex max-w-5xl flex-wrap space-y-10 px-3 text-purple-900">
+    <div className="m-auto my-10  flex space-y-10 max-w-5xl flex-wrap px-3 text-purple-900">
       <JobPost post={post} />
-      <aside className="sm:flex sm:w-full md:block  md:w-fit">
+      <aside className="sm:flex sm:w-full   md:w-full md:justify-center md:flex lg:block lg:w-fit">
         <Button asChild className="bg-purple-900 hover:bg-purple-950">
           <Link href={applicationLink}>Apply now!</Link>
         </Button>

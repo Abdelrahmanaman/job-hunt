@@ -58,6 +58,7 @@ export default async function JobResult({
             alt="Error no search found"
             height={300}
             width={300}
+            className="block size-20  object-cover"
           />
           <p className="text-3xl font-semibold text-muted-foreground">
             Oops, no result found!

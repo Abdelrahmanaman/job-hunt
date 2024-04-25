@@ -21,7 +21,7 @@ export default function Header() {
           </Link>
         </div>
         <div className="relative">
-          <button onClick={handleMenuOpen}>
+          <button aria-label="Menu" aria-checked={openMenu} onClick={handleMenuOpen}>
             {openMenu ? (
               <X className="flex size-10 md:hidden " />
             ) : (

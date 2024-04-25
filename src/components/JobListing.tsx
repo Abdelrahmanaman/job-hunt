@@ -14,7 +14,6 @@ interface JobListingProps {
 const JobListing = ({
   job: {
     title,
-    description,
     salary,
     type,
     companyLogoUrl,
@@ -25,21 +24,21 @@ const JobListing = ({
   },
 }: JobListingProps) => {
   return (
-    <article className="relative flex cursor-pointer flex-wrap items-center gap-4 rounded-lg border-2 p-5 hover:bg-muted/60">
+    <article className="relative flex cursor-pointer  flex-wrap items-center gap-4 rounded-lg border-2 p-5 hover:bg-muted/60">
       <Image
-      priority
+        priority
         src={companyLogoUrl || "/company-logo.svg"}
         alt={`${companyName} Logo`}
-        width={100}
-        height={100}
-        className="self-center rounded-lg"
+        width={500}
+        height={500}
+        className="size-40 self-center  rounded-lg object-cover"
       />
-      <div className="flex-grow space-y-4 text-muted-foreground">
+      <div className="flex-grow space-y-4 text-muted-foreground w-full md:w-fit">
         <div>
           <h2 className="text-xl font-medium text-black">{title}</h2>
           <p>{companyName}</p>
         </div>
-        <div className="">
+        <div className="w-full">
           <p className="flex items-center gap-2 sm:hidden">
             <BriefcaseBusiness className="size-4 shrink-0" />
             {type}
