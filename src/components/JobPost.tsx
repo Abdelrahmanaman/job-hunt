@@ -44,7 +44,7 @@ export default function JobPost({
           className="block rounded-lg object-cover"
         />
         <div>
-          <div className="w-96 space-y-4 text-muted-foreground">
+          <div className="space-y-4 text-muted-foreground md:w-96">
             <div className="flex flex-wrap gap-2">
               <p className="flex items-center gap-2 rounded-lg border border-purple-200 bg-muted/60 p-2 ">
                 <BriefcaseBusiness className="size-4 shrink-0" />

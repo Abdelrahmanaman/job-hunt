@@ -30,6 +30,18 @@ export async function generateMetadata({
   };
 }
 
+export async function generateStaticParams() {
+  const jobs = await prisma.job.findMany({
+    where: {
+      approved: true,
+    },
+    select: {
+      slug: true,
+    },
+  });
+  return jobs.map(({ slug }) => slug);
+}
+
 export default async function page({ params: { slug } }: PageProps) {
   const post = await getPost(slug);
   if (!post) {
@@ -44,9 +56,9 @@ export default async function page({ params: { slug } }: PageProps) {
     notFound();
   }
   return (
-    <div className="m-auto my-10  max-w-5xl space-y-10 px-3 flex text-purple-900">
+    <div className="m-auto my-10  flex max-w-5xl flex-wrap space-y-10 px-3 text-purple-900">
       <JobPost post={post} />
-      <aside>
+      <aside className="sm:flex sm:w-full md:block  md:w-fit">
         <Button asChild className="bg-purple-900 hover:bg-purple-950">
           <Link href={applicationLink}>Apply now!</Link>
         </Button>
