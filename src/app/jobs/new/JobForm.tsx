@@ -40,7 +40,6 @@ export default function JobForm() {
     watch,
     trigger,
     control,
-    setValues,
     setFocus,
     formState: { isSubmitting },
   } = form;

@@ -18,10 +18,10 @@ export function formatDate(from: Date): string {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 }
 
-//*
+
 export function toSlug(str: string) {
   return str
     .toLowerCase()
     .replace(/ /g, "-")
-    .replace(/[^w-]+/g, "");
+    .replace(/[^\w-]+/g, "");
 }

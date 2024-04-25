@@ -10,12 +10,12 @@ export default function Header() {
     setOpenMenu((prev) => !prev);
   };
   return (
-    <header className=" sticky top-0 z-20 bg-purple-600 p-4 text-white">
+    <header className=" sticky top-0 z-20 bg-purple-900 p-4 text-white">
       <nav className="flex items-center justify-between">
         <div>
           <Link href={"/"} className="flex items-center gap-1.5">
             <Image src={"/logo.svg"} alt="Job Huntlogo" width={40} height={40} />
-            <span className="text-sm font-semibold text-purple-950 md:text-xl">
+            <span className="text-sm font-semibold text-white md:text-xl">
               Job Hunt
             </span>
           </Link>
