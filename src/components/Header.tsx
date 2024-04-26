@@ -30,7 +30,7 @@ export default function Header() {
         <div className="relative">
           <button
             aria-label="Menu"
-            aria-checked={openMenu}
+            aria-expanded={openMenu}
             onClick={handleMenuOpen}
           >
             {openMenu ? (
