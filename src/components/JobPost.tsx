@@ -42,7 +42,7 @@ export default function JobPost({
           width={200}
           height={200}
           alt={`${companyName} logo`}
-          className="block size-auto rounded-lg object-cover"
+          className="block size-40 rounded-lg object-cover"
         />
         <div>
           <div className="space-y-4 text-muted-foreground md:w-96">

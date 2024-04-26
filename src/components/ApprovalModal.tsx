@@ -33,7 +33,7 @@ export function ApprovalModal({
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className={`${type === "Delete" ? " bg-red-600 hover:bg-red-600/80" : "bg-green-800 hover:bg-green-900"} items-center gap-1.5 hover:text-white text-white`}
+          className={`${type === "Delete" ? " bg-red-600 hover:bg-red-600/80" : "bg-green-800 hover:bg-green-900"} items-center gap-1.5 text-white hover:text-white`}
           variant="outline"
         >
           {type === "Delete" ? (
@@ -44,7 +44,7 @@ export function ApprovalModal({
           {title}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] rounded-lg">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -67,7 +67,7 @@ export function ApprovalModal({
               type="submit"
               className={`${type === "Delete" ? "flex items-center gap-1.5 bg-red-600 hover:bg-red-600/80" : "bg-green-800 hover:bg-green-900"}`}
             >
-              Save changes
+              Confirm
             </Button>
           </DialogFooter>
         </form>

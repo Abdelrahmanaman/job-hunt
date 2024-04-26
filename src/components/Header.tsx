@@ -3,6 +3,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import UserProfil from "./UserButton";
+
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
@@ -14,14 +16,23 @@ export default function Header() {
       <nav className="flex items-center justify-between">
         <div>
           <Link href={"/"} className="flex items-center gap-1.5">
-            <Image src={"/logo.svg"} alt="Job Huntlogo" width={40} height={40} />
+            <Image
+              src={"/logo.svg"}
+              alt="Job Huntlogo"
+              width={40}
+              height={40}
+            />
             <span className="text-sm font-semibold text-white md:text-xl">
               Job Hunt
             </span>
           </Link>
         </div>
         <div className="relative">
-          <button aria-label="Menu" aria-checked={openMenu} onClick={handleMenuOpen}>
+          <button
+            aria-label="Menu"
+            aria-checked={openMenu}
+            onClick={handleMenuOpen}
+          >
             {openMenu ? (
               <X className="flex size-10 md:hidden " />
             ) : (
@@ -42,7 +53,7 @@ export default function Header() {
             </li>
           </ul>
         </div>
-        <ul className="mr-10  hidden gap-4 md:flex ">
+        <ul className="mr-10  hidden items-center gap-4 md:flex ">
           <li>
             <Link href={"/"}>Explore Jobs</Link>
           </li>
@@ -50,7 +61,7 @@ export default function Header() {
             <Link href={"/jobs/new"}>Post a Job</Link>
           </li>
           <li>
-            <Link href={"/login"}>Login</Link>
+            <UserProfil />
           </li>
         </ul>
       </nav>
