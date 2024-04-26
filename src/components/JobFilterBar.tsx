@@ -95,9 +95,9 @@ export default async function JobFilter({ filterValues }: JobFilterProps) {
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <button type="submit" className="w-full">
+          <FormStatusButton type="submit" className="w-full">
             Filter Jobs
-          </button>
+          </FormStatusButton>
         </div>
       </form>
     </aside>
