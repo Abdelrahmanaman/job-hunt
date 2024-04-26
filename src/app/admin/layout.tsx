@@ -1,4 +1,4 @@
-import UserProfil from "@/components/UserButton";
+import UserProfile from "@/components/UserButton";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 
@@ -12,8 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <>
+      <ClerkProvider>
+        <UserProfile/>
         {children}
-      </>
+      </ClerkProvider>
   );
 }
