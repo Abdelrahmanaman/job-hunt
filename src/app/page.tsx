@@ -8,6 +8,7 @@ interface PageProps {
     type?: string;
     location?: string;
     remote?: string;
+    page?:string;
   };
 }
 //* A function to dynamically show the search output
@@ -34,7 +35,7 @@ export function generateMetadata({
   };
 }
 export default async function Home({
-  searchParams: { q, type, location, remote },
+  searchParams: { q, type, location, remote, page },
 }: PageProps) {
   const filterValues: JobFilterValues = {
     q,
@@ -55,7 +56,7 @@ export default async function Home({
         <div className="w-full sm:w-full md:w-fit">
           <JobFilter filterValues={filterValues} />
         </div>
-        <JobResult filterValues={filterValues} />
+        <JobResult filterValues={filterValues} page={page? parseInt(page) : undefined}  />
       </div>
     </section>
   );

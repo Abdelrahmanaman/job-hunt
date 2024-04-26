@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import UserProfil from "./UserButton";
+import UserProfile from "./UserButton";
 
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -60,9 +60,11 @@ export default function Header() {
           <li>
             <Link href={"/jobs/new"}>Post a Job</Link>
           </li>
-          <li>
-            <UserProfil />
-          </li>
+          {UserProfile() && (
+            <li >
+              <UserProfile />
+            </li>
+          )}
         </ul>
       </nav>
     </header>

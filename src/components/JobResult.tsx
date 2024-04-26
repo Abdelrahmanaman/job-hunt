@@ -4,13 +4,19 @@ import Link from "next/link";
 import { JobFilterValues } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
+import PaginationBar from "./PaginationBar";
 
 interface JobResultProps {
   filterValues: JobFilterValues;
+  page?: number;
 }
 export default async function JobResult({
-  filterValues: { q, location, type, remote },
+  filterValues,
+  page = 1,
 }: JobResultProps) {
+  const { q, location, type, remote } = filterValues;
+  const pagesPerPage = 3; //* Number of jobs per page.
+  const skip = (page - 1) * pagesPerPage;
   const searchTerm = q
     ?.split(" ")
     .filter((word) => word.length > 0)
@@ -39,10 +45,16 @@ export default async function JobResult({
       { approved: true },
     ],
   };
-  const jobs = await prisma.job.findMany({
+  const jobsPromise = prisma.job.findMany({
     where,
     orderBy: { createdAt: "desc" },
+    take: pagesPerPage,
+    skip,
   });
+
+  const countPromise = prisma.job.count({ where }); //* This return the count of the queries left, in order to built the pagination numbers logic
+
+  const [jobs, totalCount] = await Promise.all([jobsPromise, countPromise])
   return (
     <div className="flex w-full flex-col gap-4">
       {jobs.length ? (
@@ -65,6 +77,7 @@ export default async function JobResult({
           </p>
         </div>
       )}
+      <PaginationBar filterValues={filterValues} totalPages={totalCount} currentPage={page} />
     </div>
   );
 }
