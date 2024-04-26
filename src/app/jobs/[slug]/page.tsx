@@ -30,17 +30,7 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const jobs = await prisma.job.findMany({
-    where: {
-      approved: true,
-    },
-    select: {
-      slug: true,
-    },
-  });
-  return jobs.map(({ slug }) => slug);
-}
+
 
 export default async function page({ params: { slug } }: PageProps) {
   const post = await getPost(slug);
