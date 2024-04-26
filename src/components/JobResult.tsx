@@ -15,7 +15,7 @@ export default async function JobResult({
   page = 1,
 }: JobResultProps) {
   const { q, location, type, remote } = filterValues;
-  const pagesPerPage = 3; //* Number of jobs per page.
+  const pagesPerPage = 4; //* Number of jobs per page.
   const skip = (page - 1) * pagesPerPage;
   const searchTerm = q
     ?.split(" ")
