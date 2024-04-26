@@ -30,7 +30,6 @@ export default function PaginationBar({
     });
     return `/?${searchParams.toString()}`;
   };
-  console.log(totalPages);
   const pagesPerPage = 3; //* Number of jobs per page.
   const skip = (currentPage - 1) * pagesPerPage;
   const pageControllers = totalPages - skip - pagesPerPage;
